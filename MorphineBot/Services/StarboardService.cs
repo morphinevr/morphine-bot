@@ -69,12 +69,16 @@ namespace MorphineBot.Services
         private EmbedBuilder ConstructEmbed(IMessage message, SocketReaction reaction)
         {
             EmbedBuilder starboardEmbed = new EmbedBuilder()
-                .WithAuthor(message.Author.Username, message.Author.GetAvatarUrl()).WithColor(YELLOW_COLOR)
-                .WithDescription(message.Content)
-                .WithFooter($"Sent on {message.Timestamp.ToUniversalTime().ToString("g", EN_US_GLOB)}");
+                .WithAuthor(message.Author.Username, message.Author.GetAvatarUrl())
+                .WithColor(YELLOW_COLOR)
+                .WithDescription($"{message.Content}\n\n[Link]({message.GetJumpUrl()})")
+                .WithTimestamp(message.Timestamp)
+                .WithFooter($"#{message.Channel.Name}");
 
+            // Add the reactions field
             starboardEmbed.AddField("Reactions", message.Reactions[reaction.Emote].ReactionCount);
 
+            // Add attachments if the message has any
             if (message.Attachments.Count > 0)
                 starboardEmbed = starboardEmbed.WithImageUrl(message.Attachments.First().Url);
 
