@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -42,9 +43,8 @@ namespace MorphineBot
         [JsonProperty] private Dictionary<ulong, ServerConfig> _serverConfig = new();
 
         // Helper vars for config related files
-        private const string ConfigFolder = "Resources";
-        private const string ConfigFile = "config.json";
-        private static readonly string ConfigFileFullPath = Path.Combine(ConfigFolder, ConfigFile);
+        private static readonly string ConfigFolder = Path.GetFullPath(Path.Combine(AssemblyDirectory, "Resources"));
+        private static readonly string ConfigFile = Path.GetFullPath(Path.Combine(ConfigFolder, "config.json"));
 
         public static string Token => _singleton._token;
 
@@ -68,6 +68,19 @@ namespace MorphineBot
             set { _singleton._serverConfig = value; }
         }
 
+        /// <summary>
+        /// Returns the executing assembly's directory
+        /// </summary>
+        public static string AssemblyDirectory
+        {
+            get
+            {
+                string codeBase = Assembly.GetExecutingAssembly().Location;
+                UriBuilder uri = new UriBuilder(codeBase);
+                string path = Uri.UnescapeDataString(uri.Path);
+                return Path.GetDirectoryName(path);
+            }
+        }
         static Config()
         {
             _singleton = new Config();
@@ -75,14 +88,14 @@ namespace MorphineBot
             if (!Directory.Exists(ConfigFolder))
                 Directory.CreateDirectory(ConfigFolder);
 
-            if (File.Exists(ConfigFileFullPath))
+            if (File.Exists(ConfigFile))
             {
-                string json = File.ReadAllText(ConfigFileFullPath);
+                string json = File.ReadAllText(ConfigFile);
                 _singleton = JsonConvert.DeserializeObject<Config>(json);
             }
             else
             {
-                Console.WriteLine($"[WARN]: Missing {ConfigFile}!");
+                Console.WriteLine($"[WARN]: Missing config.json!");
 
                 // Save dummy config
                 _singleton = new Config();
@@ -95,7 +108,7 @@ namespace MorphineBot
             if (!Directory.Exists(ConfigFolder))
                 Directory.CreateDirectory(ConfigFolder);
             string json = JsonConvert.SerializeObject(_singleton, Formatting.Indented);
-            await File.WriteAllTextAsync(ConfigFileFullPath, json);
+            await File.WriteAllTextAsync(ConfigFile, json);
         }
     }
 }
