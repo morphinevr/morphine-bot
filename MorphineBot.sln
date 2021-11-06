@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MorphineBot", "MorphineBot\MorphineBot.csproj", "{FBACA5E9-377D-4761-8A6F-409C27A62356}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FBACA5E9-377D-4761-8A6F-409C27A62356}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBACA5E9-377D-4761-8A6F-409C27A62356}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBACA5E9-377D-4761-8A6F-409C27A62356}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBACA5E9-377D-4761-8A6F-409C27A62356}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
