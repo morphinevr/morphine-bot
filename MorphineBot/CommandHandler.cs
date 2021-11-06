@@ -56,7 +56,6 @@ namespace MorphineBot
                 }
                 else
                 {
-                    
                 }
             }
         }

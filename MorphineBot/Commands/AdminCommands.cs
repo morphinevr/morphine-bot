@@ -7,19 +7,15 @@ namespace MorphineBot.Commands
 {
     public class AdminCommands : ModuleBase<SocketCommandContext>
     {
-        private static bool IsAdmin(SocketGuildUser user)
-        {
-            return user.GuildPermissions.Administrator;
-        }
-
         [Command("status")]
         public async Task ChangeStatus([Remainder] string newStatus)
         {
-            if (IsAdmin((SocketGuildUser) Context.User))
+            if (((SocketGuildUser) Context.Message.Author).GuildPermissions.Administrator)
             {
                 Config.Status = newStatus;
                 await Config.SaveConfig();
                 await Program._client.SetGameAsync(Config.Status, null, ActivityType.Watching);
+                await Context.Channel.SendMessageAsync($"Set status to ```{newStatus}```");
             }
         }
     }

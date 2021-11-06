@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 
 namespace MorphineBot
 {
@@ -25,7 +26,7 @@ namespace MorphineBot
             argPos = str.Length;
             return true;
         }
-        
+
         // Execute a command, but trim the string because AAAAAAA
         public static Task<IResult> ExecuteTrimAsync(
             this CommandService commandService,
@@ -34,7 +35,8 @@ namespace MorphineBot
             IServiceProvider services,
             MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
         {
-            return commandService.ExecuteAsync(context, context.Message.Content.Substring(argPos).Trim(), services, multiMatchHandling);
+            return commandService.ExecuteAsync(context, context.Message.Content.Substring(argPos).Trim(), services,
+                multiMatchHandling);
         }
     }
 }
