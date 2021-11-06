@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using MorphineBot.Services;
 
 namespace MorphineBot
 {
@@ -11,11 +12,13 @@ namespace MorphineBot
     {
         DiscordSocketClient _client;
         public CommandService _service;
+        public ServiceHandler _serviceHandler;
 
         public async Task InitialiseAsync(DiscordSocketClient client)
         {
             this._client = client;
             _service = new CommandService();
+            _serviceHandler = new ServiceHandler();
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), null);
             _client.MessageReceived += HandleCommandAsync;
             await _client.SetStatusAsync(UserStatus.Idle);
@@ -56,6 +59,7 @@ namespace MorphineBot
                 }
                 else
                 {
+                    await _serviceHandler.HandleMessage(context);
                 }
             }
         }
