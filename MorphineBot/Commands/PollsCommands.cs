@@ -9,6 +9,7 @@ namespace MorphineBot.Commands
     public class PollsCommands : ModuleBase<SocketCommandContext>
     {
         [Command("polls")]
+        [Alias("poll")]
         public async Task GenPollReactions(string count = "2")
         {
             if (Context.User.Id == Context.Guild.OwnerId)
