@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -17,6 +18,15 @@ namespace MorphineBot.Commands
                 await Program._client.SetGameAsync(Config.Status, null, ActivityType.Watching);
                 await Context.Channel.SendMessageAsync($"Set status to ```{newStatus}```");
             }
+        }
+
+        [Command("starboard_min")]
+        public async Task StarboardMinStars(int threshold, [Remainder] string extra)
+        {
+            threshold = Math.Max(threshold, 1);
+            Config.ServerConfigs[Context.Guild.Id].StarboardMinimumStars = threshold;
+            await Config.SaveConfig();
+            await Context.Channel.SendMessageAsync($"Starboard minimum threshold set to {threshold} stars!");
         }
     }
 }

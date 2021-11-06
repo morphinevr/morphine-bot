@@ -38,5 +38,15 @@ namespace MorphineBot
             return commandService.ExecuteAsync(context, context.Message.Content.Substring(argPos).Trim(), services,
                 multiMatchHandling);
         }
+
+        public static async Task<IMessage> GetMessageAsync(ISocketMessageChannel channel, ulong messageId)
+        {
+            // cache the message
+            IMessage msg = channel.GetCachedMessage(messageId);
+            if (msg == null)
+                msg = await channel.GetMessageAsync(messageId);
+
+            return msg;
+        }
     }
 }

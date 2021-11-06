@@ -10,6 +10,10 @@ namespace MorphineBot
     // Individual server config
     public class ServerConfig
     {
+        /// <summary>
+        /// Starboard minimum stars
+        /// </summary>
+        public int StarboardMinimumStars = 3;
         public Dictionary<ulong, RoleAssignment> RoleAssignments = new();
     }
 

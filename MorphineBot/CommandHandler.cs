@@ -18,7 +18,7 @@ namespace MorphineBot
         {
             this._client = client;
             _service = new CommandService();
-            _serviceHandler = new ServiceHandler();
+            _serviceHandler = new ServiceHandler(_client);
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), null);
             _client.MessageReceived += HandleCommandAsync;
             await _client.SetStatusAsync(UserStatus.Idle);
