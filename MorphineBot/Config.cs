@@ -104,18 +104,8 @@ namespace MorphineBot
                 _singleton = new Config();
                 SaveConfig().GetAwaiter().GetResult();
             }
-            
-            // Try loading the commands list
-            if (CommandTags.Count == 0)
-            {
-                if (File.Exists(CommandsFileFullPath))
-                {
-                    string json = File.ReadAllText(Config.CommandsFileFullPath);
-                    CommandTags = JsonConvert.DeserializeObject<List<CommandTag>>(json);
-                }
-                else
-                    Console.WriteLine($"[WARN]: Missing {Config.CommandsFile}!");
-            }
+
+            LoadCommands();
         }
 
         public static async Task SaveConfig()
@@ -124,6 +114,18 @@ namespace MorphineBot
                 Directory.CreateDirectory(ConfigFolder);
             string json = JsonConvert.SerializeObject(_singleton, Formatting.Indented);
             await File.WriteAllTextAsync(ConfigFileFullPath, json);
+        }
+
+        public static void LoadCommands()
+        {
+            // Try loading the commands list
+            if (File.Exists(CommandsFileFullPath))
+            {
+                string json = File.ReadAllText(CommandsFileFullPath);
+                CommandTags = JsonConvert.DeserializeObject<List<CommandTag>>(json);
+            }
+            else
+                Console.WriteLine($"[WARN]: Missing {CommandsFile}!");
         }
     }
 }
