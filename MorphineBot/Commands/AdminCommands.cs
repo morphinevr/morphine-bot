@@ -42,12 +42,14 @@ namespace MorphineBot.Commands
         }
 
         [Command("reload")]
-        public async Task ReloadCommands([Remainder] string extra = "")
+        public Task ReloadCommands([Remainder] string extra = "")
         {
             if (((SocketGuildUser) Context.Message.Author).GuildPermissions.Administrator)
             {
                 Config.LoadCommands();
             }
+
+            return Task.CompletedTask;
         }
     }
 }
