@@ -14,7 +14,13 @@ namespace MorphineBot
         /// Starboard minimum stars
         /// </summary>
         public int StarboardMinimumStars = 3;
+
         public Dictionary<ulong, RoleAssignment> RoleAssignments = new();
+
+        /// <summary>
+        /// A list of message id pairs, with key being the message being starred and the value associated with it being the starboard message ID
+        /// </summary>
+        public Dictionary<ulong, ulong> StarboardMessages = new();
     }
 
     // Individual role properties
@@ -45,6 +51,8 @@ namespace MorphineBot
         private const string ConfigFolder = "Resources";
         private const string ConfigFile = "config.json";
         private static readonly string ConfigFileFullPath = Path.Combine(ConfigFolder, ConfigFile);
+
+        public const ulong HYBLOCKER_ID = 346338830011596800L;
 
         public static string Token => _singleton._token;
 

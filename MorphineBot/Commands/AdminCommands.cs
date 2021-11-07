@@ -28,5 +28,14 @@ namespace MorphineBot.Commands
             await Config.SaveConfig();
             await Context.Channel.SendMessageAsync($"Starboard minimum threshold set to {threshold} stars!");
         }
+
+        [Command("suicide")]
+        public async Task CommitDie([Remainder] string extra)
+        {
+            if (Context.User.Id == Config.HYBLOCKER_ID)
+            {
+                await Program._client.LogoutAsync();
+            }
+        }
     }
 }

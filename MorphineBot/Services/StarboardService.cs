@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -16,21 +17,24 @@ namespace MorphineBot.Services
         private const ulong STARBOARD_CHANNEL_ID = 904448968975589447L;
         private SocketTextChannel STARBOARD_CHANNEL = null;
         private const string STAR_EMOTE = "⭐";
-        private readonly static Color YELLOW_COLOR = new Color(255, 172, 51);
-        private readonly static CultureInfo EN_US_GLOB = CultureInfo.CreateSpecificCulture("en-US");
+        private static readonly Color YELLOW_COLOR = new Color(255, 172, 51);
+        private static readonly CultureInfo EN_US_GLOB = CultureInfo.CreateSpecificCulture("en-US");
 
+        // Local temporary cache    
         private Dictionary<ulong, RestUserMessage> starboard_cache = new();
 
-        public async Task ProcessMessage(SocketCommandContext context)
+        // Shorthand to get current guild
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private SocketGuild CurrentGuild(ISocketMessageChannel channel)
         {
-            Console.WriteLine("[Starboard Service] " + context.Message);
+            return ((SocketGuildChannel) channel).Guild;
         }
 
         public async Task ReactionAdded(IMessage message, ISocketMessageChannel channel, SocketReaction reaction)
         {
             if (reaction.Emote.Name == STAR_EMOTE &&
                 message.Reactions[reaction.Emote].ReactionCount >=
-                Config.ServerConfigs[((SocketGuildChannel) channel).Guild.Id].StarboardMinimumStars)
+                Config.ServerConfigs[CurrentGuild(channel).Id].StarboardMinimumStars)
             {
                 // Cache starboard channel
                 FindStarboardChannel(channel);
@@ -63,7 +67,7 @@ namespace MorphineBot.Services
         {
             if (STARBOARD_CHANNEL == null)
                 STARBOARD_CHANNEL =
-                    (SocketTextChannel) ((SocketGuildChannel) channel).Guild.GetChannel(STARBOARD_CHANNEL_ID);
+                    (SocketTextChannel) CurrentGuild(channel).GetChannel(STARBOARD_CHANNEL_ID);
         }
 
         private EmbedBuilder ConstructEmbed(IMessage message, SocketReaction reaction)
@@ -88,10 +92,27 @@ namespace MorphineBot.Services
         private async Task SendEmbedInChannel(ulong id, ISocketMessageChannel channel, EmbedBuilder embed)
         {
             if (!starboard_cache.ContainsKey(id))
-                starboard_cache.Add(id,
-                    await STARBOARD_CHANNEL.SendMessageAsync("", false, embed.Build()));
+            {
+                // Try fetching the starboard message
+                RestUserMessage msg = null;
+                if (Config.ServerConfigs[CurrentGuild(channel).Id].StarboardMessages.ContainsKey(id))
+                {
+                    msg = (RestUserMessage) await Utils.GetMessageAsync(STARBOARD_CHANNEL,
+                        Config.ServerConfigs[CurrentGuild(channel).Id].StarboardMessages[id]);
+                    await msg.ModifyAsync(msg => msg.Embed = embed.Build());
+                }
+                else
+                {
+                    msg = await STARBOARD_CHANNEL.SendMessageAsync("", false, embed.Build());
+                    Config.ServerConfigs[CurrentGuild(channel).Id].StarboardMessages.Add(id, msg.Id);
+                }
+
+                starboard_cache.Add(id, msg);
+            }
             else
+            {
                 await starboard_cache[id].ModifyAsync(msg => msg.Embed = embed.Build());
+            }
         }
     }
 }
