@@ -10,10 +10,10 @@ namespace MorphineBot.Commands
     public class RolemenuCommands : ModuleBase<SocketCommandContext>
     {
         private static readonly Regex RegexEmoteIdFetch = new Regex("[^:]+[0-9]+");
-        private static readonly Regex RegexEmoteStrFetch = new Regex("(:([A-z]+):)");
 
         [Command("roles")]
         [Alias("rolemenu", "role")]
+        [Summary("format: EMOTE @role EMOTE @role ...")]
         public async Task GenPollReactions([Remainder] string msg)
         {
             // Perms
@@ -68,11 +68,15 @@ namespace MorphineBot.Commands
                     await rolesMessage.AddReactionAsync(new Emoji(assignments.EmoteRoleIdPair[i].Emote));
             }
 
-            assignments.channel = Context.Guild.Id;
+            // Store by channel id
+            assignments.channel = Context.Channel.Id;
 
             // Remember role pairs
             Config.ServerConfigs[Context.Guild.Id].RoleAssignments.Add(rolesMessage.Id, assignments);
             await Config.SaveConfig();
+
+            // Remove original message
+            await Context.Message.DeleteAsync();
         }
     }
 }
