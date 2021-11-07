@@ -15,6 +15,9 @@ namespace MorphineBot
         /// </summary>
         public int StarboardMinimumStars = 3;
 
+        /// <summary>
+        /// A list of role assignments
+        /// </summary>
         public Dictionary<ulong, RoleAssignment> RoleAssignments = new();
 
         /// <summary>
