@@ -46,7 +46,7 @@ namespace MorphineBot
         };
 
         [JsonProperty] private Dictionary<ulong, ServerConfig> _serverConfig = new();
-        public static List<CommandTag> CommandTags = new();
+        public static List<CommandTagCategory> CommandTags = new();
 
         // Helper vars for config related files
         private const string ConfigFolder = "Resources";
@@ -122,7 +122,7 @@ namespace MorphineBot
             if (File.Exists(CommandsFileFullPath))
             {
                 string json = File.ReadAllText(CommandsFileFullPath);
-                CommandTags = JsonConvert.DeserializeObject<List<CommandTag>>(json);
+                CommandTags = JsonConvert.DeserializeObject<List<CommandTagCategory>>(json);
             }
             else
                 Console.WriteLine($"[WARN]: Missing {CommandsFile}!");

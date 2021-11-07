@@ -28,17 +28,27 @@ namespace MorphineBot.Services
                 // TODO: complex commands
                 for (int i = 0; i < Config.CommandTags.Count; i++)
                 {
-                    if (Config.CommandTags[i].Name.ToLower() == command ||
-                        (Config.CommandTags[i].Alias != null && Config.CommandTags[i].Alias.Contains(command)))
+                    for (int j = 0; j < Config.CommandTags[i].commands.Count; j++)
                     {
-                        await context.Channel.SendMessageAsync(Config.CommandTags[i].Content.Content ?? string.Empty);
+                        
+                    if (Config.CommandTags[i].commands[j].Name.ToLower() == command ||
+                        (Config.CommandTags[i].commands[j].Alias != null && Config.CommandTags[i].commands[j].Alias.Contains(command)))
+                    {
+                        await context.Channel.SendMessageAsync(Config.CommandTags[i].commands[j].Content.Content ?? string.Empty);
 
                         // exit; we don't need to loop through the rest of the commands
                         return;
                     }
+                    }
                 }
             }
         }
+    }
+    
+    public class CommandTagCategory
+    {
+        public string category { get; set; }
+        public List<CommandTag> commands { get; set; }
     }
 
     public struct CommandTag

@@ -11,9 +11,12 @@ namespace MorphineBot.Commands
         [Command("help")]
         public async Task Help()
         {
-            // var embedBuilder = new EmbedBuilder().WithTitle("Help").WithDescription("i dunno 💀");
-            
-            // await Context.Channel.SendMessageAsync("", false, embedBuilder.Build());
+            var embedBuilder = new EmbedBuilder().WithTitle("Help").WithDescription("i dunno 💀");
+            for (int i = 0; i < Config.CommandTags.Count; i++)
+            {
+                
+                await Context.Channel.SendMessageAsync("", false, embedBuilder.Build());   
+            }
         }
     }
 }
