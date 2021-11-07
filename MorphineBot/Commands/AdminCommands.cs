@@ -23,10 +23,13 @@ namespace MorphineBot.Commands
         [Command("starboard_min")]
         public async Task StarboardMinStars(int threshold, [Remainder] string extra)
         {
-            threshold = Math.Max(threshold, 1);
-            Config.ServerConfigs[Context.Guild.Id].StarboardMinimumStars = threshold;
-            await Config.SaveConfig();
-            await Context.Channel.SendMessageAsync($"Starboard minimum threshold set to {threshold} stars!");
+            if (((SocketGuildUser) Context.Message.Author).GuildPermissions.Administrator)
+            {
+                threshold = Math.Max(threshold, 1);
+                Config.ServerConfigs[Context.Guild.Id].StarboardMinimumStars = threshold;
+                await Config.SaveConfig();
+                await Context.Channel.SendMessageAsync($"Starboard minimum threshold set to {threshold} stars!");
+            }
         }
 
         [Command("suicide")]

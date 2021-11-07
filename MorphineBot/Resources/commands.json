@@ -1,3 +1,18 @@
-{
-  
-}
+[
+  {
+    "Name": "amogus",
+    "Alias": ["amongus", "among us", "sus"],
+    "Description": "GET OUT OF MY HEAD",
+    "Content": {
+      "Content": "<:AMONG:905958348334186506>\n<:AMONG:905958348334186506>"
+    }
+  },
+  {
+    "Name": "ping",
+    "Alias": null,
+    "Description": "pong!",
+    "Content": {
+      "Content": "pong"
+    }
+  }
+]

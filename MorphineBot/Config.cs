@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using MorphineBot.Services;
 using Newtonsoft.Json;
 
 namespace MorphineBot
@@ -46,11 +46,14 @@ namespace MorphineBot
         };
 
         [JsonProperty] private Dictionary<ulong, ServerConfig> _serverConfig = new();
+        public static List<CommandTag> CommandTags = new();
 
         // Helper vars for config related files
         private const string ConfigFolder = "Resources";
         private const string ConfigFile = "config.json";
+        private const string CommandsFile = "commands.json";
         private static readonly string ConfigFileFullPath = Path.Combine(ConfigFolder, ConfigFile);
+        private static readonly string CommandsFileFullPath = Path.Combine(ConfigFolder, CommandsFile);
 
         public const ulong HYBLOCKER_ID = 346338830011596800L;
 
@@ -80,9 +83,14 @@ namespace MorphineBot
         {
             _singleton = new Config();
 
+            // Ensure the config directory exists
             if (!Directory.Exists(ConfigFolder))
+            {
                 Directory.CreateDirectory(ConfigFolder);
+                Console.WriteLine($"[WARN]: Directory {ConfigFolder} was not found!!");
+            }
 
+            // Try loading the config
             if (File.Exists(ConfigFileFullPath))
             {
                 string json = File.ReadAllText(ConfigFileFullPath);
@@ -95,6 +103,18 @@ namespace MorphineBot
                 // Save dummy config
                 _singleton = new Config();
                 SaveConfig().GetAwaiter().GetResult();
+            }
+            
+            // Try loading the commands list
+            if (CommandTags.Count == 0)
+            {
+                if (File.Exists(CommandsFileFullPath))
+                {
+                    string json = File.ReadAllText(Config.CommandsFileFullPath);
+                    CommandTags = JsonConvert.DeserializeObject<List<CommandTag>>(json);
+                }
+                else
+                    Console.WriteLine($"[WARN]: Missing {Config.CommandsFile}!");
             }
         }
 

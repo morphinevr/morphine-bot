@@ -8,10 +8,10 @@ namespace MorphineBot.Commands
 {
     public class SimpleCommands : ModuleBase<SocketCommandContext>
     {
-        [Command("ping")]
-        public async Task Ping()
+        [Command("help")]
+        public async Task Help()
         {
-            await Context.Channel.SendMessageAsync("pong");
+            await Context.Channel.SendMessageAsync("```\n//TODO: help auto-gen or something```");
         }
     }
 }

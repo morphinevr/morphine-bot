@@ -55,6 +55,7 @@ namespace MorphineBot
                     if (!result.IsSuccess)
                     {
                         await Console.Error.WriteLineAsync(result.ErrorReason);
+                        await _serviceHandler.HandleMessage(context);
                     }
                 }
                 else
