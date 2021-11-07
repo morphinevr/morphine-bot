@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using Newtonsoft.Json;
 
@@ -48,6 +49,7 @@ namespace MorphineBot.Services
     public class CommandTagCategory
     {
         public string category { get; set; }
+        public uint color { get; set; }
         public List<CommandTag> commands { get; set; }
     }
 
