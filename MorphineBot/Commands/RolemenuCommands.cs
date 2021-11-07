@@ -24,13 +24,6 @@ namespace MorphineBot.Commands
             var messageComponents = Regex.Replace(msg, @"\s+", " ").Trim().Split(" ");
             var roleDescriptionBuilder = new StringBuilder();
 
-            int longestRoleName = 0;
-
-            for (int i = 0; i < messageComponents.Length; i += 2)
-            {
-                var emoji = messageComponents[i];
-            }
-
             // Parse message
             for (int i = 0; i < messageComponents.Length; i += 2)
             {
