@@ -29,7 +29,7 @@ namespace MorphineBot.Services
                     {
                         await ((SocketGuildUser) reaction.User).AddRoleAsync(
                             currentGuild.GetRole(channelReactionRoles[i].RoleID));
-                        
+
                         // Exit early, as these events only contain a single emote
                         return;
                     }
@@ -51,7 +51,7 @@ namespace MorphineBot.Services
                     {
                         await ((SocketGuildUser) reaction.User).RemoveRoleAsync(
                             currentGuild.GetRole(channelReactionRoles[i].RoleID));
-                        
+
                         // Exit early, as these events only contain a single emote
                         return;
                     }
