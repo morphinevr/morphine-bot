@@ -36,6 +36,10 @@ namespace MorphineBot
 
         public async Task HandleMessage(SocketCommandContext context)
         {
+            // Prevent infinite loops
+            if (context.Message.Author.Id == _client.CurrentUser.Id)
+                return;
+            
             for (int i = 0; i < _services.Count; i++)
             {
                 await _services[i].ProcessMessage(context);
@@ -44,6 +48,10 @@ namespace MorphineBot
 
         private async Task HandleReactionAdded(Cacheable<IUserMessage, ulong> cached, ISocketMessageChannel channel, SocketReaction reaction)
         {
+            // Ignore self
+            if (reaction.UserId == _client.CurrentUser.Id)
+                return;
+            
             // cache the message
             IMessage msg = await Utils.GetMessageAsync(channel, reaction.MessageId);
             
@@ -55,6 +63,10 @@ namespace MorphineBot
 
         private async Task HandleReactionRemoved(Cacheable<IUserMessage, ulong> cached, ISocketMessageChannel channel, SocketReaction reaction)
         {
+            // Ignore self
+            if (reaction.UserId == _client.CurrentUser.Id)
+                return;
+            
             // cache the message
             IMessage msg = await Utils.GetMessageAsync(channel, reaction.MessageId);
             
