@@ -105,6 +105,7 @@ namespace MorphineBot.Services
                 {
                     msg = await STARBOARD_CHANNEL.SendMessageAsync("", false, embed.Build());
                     Config.ServerConfigs[CurrentGuild(channel).Id].StarboardMessages.Add(id, msg.Id);
+                    await Config.SaveConfig();
                 }
 
                 starboard_cache.Add(id, msg);
