@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Discord;
 using Discord.Commands;
-using Newtonsoft.Json;
 
 namespace MorphineBot.Services
 {
@@ -31,21 +27,22 @@ namespace MorphineBot.Services
                 {
                     for (int j = 0; j < Config.CommandTags[i].commands.Count; j++)
                     {
-                        
-                    if (Config.CommandTags[i].commands[j].Name.ToLower() == command ||
-                        (Config.CommandTags[i].commands[j].Alias != null && Config.CommandTags[i].commands[j].Alias.Contains(command)))
-                    {
-                        await context.Channel.SendMessageAsync(Config.CommandTags[i].commands[j].Content.Content ?? string.Empty);
+                        if (Config.CommandTags[i].commands[j].Name.ToLower() == command ||
+                            (Config.CommandTags[i].commands[j].Alias != null &&
+                             Config.CommandTags[i].commands[j].Alias.Contains(command)))
+                        {
+                            await context.Channel.SendMessageAsync(Config.CommandTags[i].commands[j].Content.Content ??
+                                                                   string.Empty);
 
-                        // exit; we don't need to loop through the rest of the commands
-                        return;
-                    }
+                            // exit; we don't need to loop through the rest of the commands
+                            return;
+                        }
                     }
                 }
             }
         }
     }
-    
+
     public class CommandTagCategory
     {
         public string category { get; set; }
@@ -71,10 +68,9 @@ namespace MorphineBot.Services
             Content = new MessageObject();
         }
 
-        public CommandTag(string name, MessageObject content) : this()
+        public override string ToString()
         {
-            Name = name;
-            Content = content;
+            return $"{Name ?? ""} ({Description ?? ""}) : {Content.ToString()}";
         }
     }
 
@@ -86,6 +82,11 @@ namespace MorphineBot.Services
         public MessageObject(string content = null)
         {
             Content = content;
+        }
+
+        public override string ToString()
+        {
+            return $"{Content ?? ""}";
         }
     }
 }
