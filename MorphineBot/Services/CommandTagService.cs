@@ -28,10 +28,11 @@ namespace MorphineBot.Services
                 // TODO: complex commands
                 for (int i = 0; i < Config.CommandTags.Count; i++)
                 {
-                    if (Config.CommandTags[i].Name.ToLower() == command || Config.CommandTags[i].Alias.Contains(command))
+                    if (Config.CommandTags[i].Name.ToLower() == command ||
+                        (Config.CommandTags[i].Alias != null && Config.CommandTags[i].Alias.Contains(command)))
                     {
                         await context.Channel.SendMessageAsync(Config.CommandTags[i].Content.Content ?? string.Empty);
-                        
+
                         // exit; we don't need to loop through the rest of the commands
                         return;
                     }
@@ -44,7 +45,9 @@ namespace MorphineBot.Services
     {
         public string Name;
         public string[] Alias;
+
         public string Description;
+
         // TODO: category
         public MessageObject Content;
 
