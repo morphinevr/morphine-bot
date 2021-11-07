@@ -21,10 +21,12 @@ namespace MorphineBot.Commands
             foreach (var categoryGroup in Config.CommandTags)
             {
                 helpBuffer.Clear();
-               // helpBuffer.Add($"Category: **{categoryGroup.category}**\n```");
-               helpBuffer.Add("```");
+                // helpBuffer.Add($"Category: **{categoryGroup.category}**\n```");
+                helpBuffer.Add("```");
 
-                foreach (var command in categoryGroup.commands)
+                var sortedList = categoryGroup.commands.OrderBy(item => item.Name).ToList();
+
+                foreach (var command in sortedList)
                 {
                     helpBuffer.Add($"{command.Name.PadRight(25)}{command.Description}");
                 }
