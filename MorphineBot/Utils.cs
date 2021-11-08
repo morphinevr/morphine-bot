@@ -27,18 +27,6 @@ namespace MorphineBot
             return true;
         }
 
-        // Execute a command, but trim the string because AAAAAAA
-        public static Task<IResult> ExecuteTrimAsync(
-            this CommandService commandService,
-            ICommandContext context,
-            int argPos,
-            IServiceProvider services,
-            MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
-        {
-            return commandService.ExecuteAsync(context, context.Message.Content.Substring(argPos).Trim(), services,
-                multiMatchHandling);
-        }
-
         public static async Task<IMessage> GetMessageAsync(ISocketMessageChannel channel, ulong messageId)
         {
             // cache the message

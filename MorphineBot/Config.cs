@@ -40,7 +40,7 @@ namespace MorphineBot
 
         // Actual variables, only visible to singleton, but get proxied through static vars
         [JsonProperty] private string _token = "BRUH";
-        [JsonProperty] private string _prefix = "pissy";
+        [JsonProperty] private string _prefix = "pissy ";
         [JsonProperty] private string _status = "drugs4vr 😎";
 
         [JsonProperty] private ulong[] _guildWhitelist =

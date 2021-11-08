@@ -50,7 +50,7 @@ namespace MorphineBot
                 if (msg.HasStringPrefixIgnoreCase(Config.Prefix, ref argPos) ||
                     msg.HasMentionPrefix(_client.CurrentUser, ref argPos))
                 {
-                    var result = await _service.ExecuteTrimAsync(context, argPos, null);
+                    var result = await _service.ExecuteAsync(context, argPos, null);
                     if (!result.IsSuccess)
                     {
                         await Console.Error.WriteLineAsync(result.ErrorReason);
