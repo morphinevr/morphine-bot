@@ -7,4 +7,6 @@ Don't bother contributing much other than typos in `commands.json`. (Whenever I 
 
 - Starboard
 - `{prefix}polls 2` => generates a poll with 2 choices because I'm lazy!
+- Rolemenu
+- Command tags defined through a JSON file (see `./Resources/commands.json`)
 - Automatically detect scam links posted from hijacked accounts and inform the compromised account's owner, mute the account and delete all messages with the scams. (Coming soon™)
