@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -38,6 +39,9 @@ namespace MorphineBot.Commands
             if (Context.User.Id == Config.HYBLOCKER_ID)
             {
                 await Program._client.LogoutAsync();
+                
+                // Destructive trolling :D
+                Process.GetCurrentProcess().Kill();
             }
         }
 
