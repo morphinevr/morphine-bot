@@ -109,5 +109,14 @@ namespace MorphineBot.Services
                 await _starboardCache[id].ModifyAsync(msg => msg.Embed = embed.Build());
             }
         }
+
+        public async Task MessageDeleted(IMessage message, ulong id, SocketTextChannel channel)
+        {
+            if (Config.ServerConfigs[CurrentGuild(channel).Id].StarboardMessages.ContainsKey(id))
+            {
+                Config.ServerConfigs[CurrentGuild(channel).Id].StarboardMessages.Remove(id);
+                await Config.SaveConfig();
+            }
+        }
     }
 }
