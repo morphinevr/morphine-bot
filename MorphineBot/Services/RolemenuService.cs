@@ -58,5 +58,16 @@ namespace MorphineBot.Services
                 }
             }
         }
+
+        // Clear the role menu as its redundant
+        public async Task MessageDeleted(IMessage message, ulong id, SocketTextChannel channel)
+        {
+            SocketGuild currentGuild = CurrentGuild(channel);
+            if (Config.ServerConfigs[currentGuild.Id].RoleAssignments.ContainsKey(id))
+            {
+                Config.ServerConfigs[currentGuild.Id].RoleAssignments.Remove(id);
+                await Config.SaveConfig();
+            }
+        }
     }
 }

@@ -32,6 +32,7 @@ namespace MorphineBot
             
             client.ReactionAdded += HandleReactionAdded;
             client.ReactionRemoved += HandleReactionRemoved;
+            client.MessageDeleted += HandleMessageDeleted;
         }
 
         public async Task HandleMessage(SocketCommandContext context)
@@ -75,6 +76,15 @@ namespace MorphineBot
                 await _services[i].ReactionRemoved(msg, channel, reaction);
             }
         }
+
+        private async Task HandleMessageDeleted(Cacheable<IMessage, ulong> message, ISocketMessageChannel channel)
+        {
+            IMessage msg = await message.GetOrDownloadAsync();
+            for (int i = 0; i < _services.Count; i++)
+            {
+                await _services[i].MessageDeleted(msg, message.Id, (SocketTextChannel) channel);
+            }
+        }
     }
 
     public interface IService
@@ -90,6 +100,11 @@ namespace MorphineBot
         }
         
         public Task ReactionRemoved(IMessage message, ISocketMessageChannel channel, SocketReaction reaction)
+        {
+            return Task.CompletedTask;
+        }
+
+        public Task MessageDeleted(IMessage message, ulong id, SocketTextChannel channel)
         {
             return Task.CompletedTask;
         }
