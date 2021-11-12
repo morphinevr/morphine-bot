@@ -17,6 +17,16 @@ namespace MorphineBot.Commands
         List<CommandInfo> ownerCommands = new List<CommandInfo>();
         List<CommandInfo> miscCommands = new List<CommandInfo>();
 
+        private static readonly uint[] PrideFlagColor = new[]
+        {
+            16711692u,
+            16738816u,
+            16768256u,
+            50711u,
+            23039u,
+            12255487u,
+        };
+
         private void InitCommandsLists()
         {
             //Separate the commands by group
@@ -45,7 +55,7 @@ namespace MorphineBot.Commands
 
 
         [Command("help")]
-        [Summary("Ouputs this message!")]
+        [Summary("Outputs this message!")]
         public async Task Help()
         {
             if (ownerCommands.Count == 0)
@@ -54,9 +64,11 @@ namespace MorphineBot.Commands
             await Context.Channel.SendMessageAsync("**Help**\n");
 
             List<string> helpBuffer = new();
+            bool isPrideMonth = DateTime.UtcNow.Month == 6;
 
-            foreach (var categoryGroup in Config.CommandTags)
+            for (var i = 0; i < Config.CommandTags.Count; i++)
             {
+                var categoryGroup = Config.CommandTags[i];
                 helpBuffer.Clear();
                 // helpBuffer.Add($"Category: **{categoryGroup.category}**\n```");
                 helpBuffer.Add("```");
@@ -93,8 +105,14 @@ namespace MorphineBot.Commands
                         break;
                 }
 
+                // pride month <3
+                if (isPrideMonth && i < 6)
+                    categoryGroup.color = PrideFlagColor[i];
+
+                // sort commands alphabetically
                 var sortedList = commandListBuffer.OrderBy(item => item.Name).ToList();
 
+                // add commands to embed
                 foreach (var command in sortedList)
                 {
                     helpBuffer.Add($"{command.Name.PadRight(25)}{command.Description}");
