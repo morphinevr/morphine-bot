@@ -54,14 +54,14 @@ namespace MorphineBot.Commands
         [Command("reload")]
         [Summary("Reloads tags")]
         [AdminCommand]
-        public Task ReloadCommands([Remainder] string extra = "")
+        public async Task ReloadCommands([Remainder] string extra = "")
         {
             if (((SocketGuildUser) Context.Message.Author).GuildPermissions.Administrator)
             {
                 Config.LoadCommands();
-            }
 
-            return Task.CompletedTask;
+                await Context.Channel.SendMessageAsync("Successfully reloaded all tags!");
+            }
         }
     }
 }
