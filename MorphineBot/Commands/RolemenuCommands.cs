@@ -14,6 +14,7 @@ namespace MorphineBot.Commands
         [Command("roles")]
         [Alias("rolemenu", "role")]
         [Summary("format: EMOTE @role EMOTE @role ...")]
+        [AdminCommand]
         public async Task GenPollReactions([Remainder] string msg)
         {
             // Perms

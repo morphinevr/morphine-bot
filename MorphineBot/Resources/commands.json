@@ -38,5 +38,10 @@
         }
       }
     ]
+  },
+  {
+    "category": "admin",
+    "color": 16728042,
+    "commands": []
   }
 ]

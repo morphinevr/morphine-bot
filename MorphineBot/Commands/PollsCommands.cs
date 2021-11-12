@@ -10,6 +10,8 @@ namespace MorphineBot.Commands
     {
         [Command("polls")]
         [Alias("poll")]
+        [Summary("Generates a poll because I'm extremely lazy")]
+        [AdminCommand]
         public async Task GenPollReactions(string count = "2")
         {
             if (Context.User.Id == Context.Guild.OwnerId)

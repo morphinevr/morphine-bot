@@ -10,9 +10,11 @@ namespace MorphineBot.Commands
     public class AdminCommands : ModuleBase<SocketCommandContext>
     {
         [Command("status")]
+        [Summary("Changes the bot's status")]
+        [OwnerCommand]
         public async Task ChangeStatus([Remainder] string newStatus)
         {
-            if (((SocketGuildUser) Context.Message.Author).GuildPermissions.Administrator)
+            if (Context.User.Id == Config.HYBLOCKER_ID)
             {
                 Config.Status = newStatus;
                 await Config.SaveConfig();
@@ -22,6 +24,8 @@ namespace MorphineBot.Commands
         }
 
         [Command("starboard_min")]
+        [Summary("Sets the minimum starboard count")]
+        [AdminCommand]
         public async Task StarboardMinStars(int threshold, [Remainder] string extra)
         {
             if (((SocketGuildUser) Context.Message.Author).GuildPermissions.Administrator)
@@ -34,6 +38,8 @@ namespace MorphineBot.Commands
         }
 
         [Command("suicide")]
+        [Summary("Kills the bot lmao")]
+        [OwnerCommand]
         public async Task CommitDie([Remainder] string extra)
         {
             if (Context.User.Id == Config.HYBLOCKER_ID)
@@ -46,6 +52,8 @@ namespace MorphineBot.Commands
         }
 
         [Command("reload")]
+        [Summary("Reloads tags")]
+        [AdminCommand]
         public Task ReloadCommands([Remainder] string extra = "")
         {
             if (((SocketGuildUser) Context.Message.Author).GuildPermissions.Administrator)
