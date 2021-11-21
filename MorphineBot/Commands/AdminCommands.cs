@@ -9,6 +9,19 @@ namespace MorphineBot.Commands
 {
     public class AdminCommands : ModuleBase<SocketCommandContext>
     {
+
+        [Command("echo")]
+        [Summary("Echoes the message given")]
+        [AdminCommand]
+        public async Task EchoMessage([Remainder] string extra = "")
+        {
+            if (((SocketGuildUser) Context.Message.Author).GuildPermissions.Administrator)
+            {
+                await Context.Channel.SendMessageAsync(extra);
+                await Context.Message.DeleteAsync();
+            }
+        }
+        
         [Command("status")]
         [Summary("Changes the bot's status")]
         [OwnerCommand]
