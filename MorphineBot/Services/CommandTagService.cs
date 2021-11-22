@@ -31,11 +31,16 @@ namespace MorphineBot.Services
                             (Config.CommandTags[i].commands[j].Alias != null &&
                              Config.CommandTags[i].commands[j].Alias.Contains(command)))
                         {
-                            await context.Channel.SendMessageAsync(Config.CommandTags[i].commands[j].Content.Content ??
-                                                                   string.Empty);
+                            for (int k = 0; k < Config.CommandTags[i].commands[j].Content.Length; k++)
+                            {
+                                // TODO: not be lazy and implement Attachments
+                                await context.Channel.SendMessageAsync(
+                                    Config.CommandTags[i].commands[j].Content[k].Content ??
+                                    string.Empty);
 
-                            // exit; we don't need to loop through the rest of the commands
-                            return;
+                                // exit; we don't need to loop through the rest of the commands
+                                return;
+                            }
                         }
                     }
                 }
@@ -58,35 +63,36 @@ namespace MorphineBot.Services
         public string Description;
 
         // TODO: category
-        public MessageObject Content;
+        public MessageObject[] Content;
 
         public CommandTag(string name = null, string description = null, string[] aliases = null)
         {
-            this.Name = name;
+            Name = name;
             Description = description;
             Alias = aliases ?? new string[] { };
-            Content = new MessageObject();
+            Content = new MessageObject[] {new()};
         }
 
         public override string ToString()
         {
-            return $"{Name ?? ""} ({Description ?? ""}) : {Content.ToString()}";
+            return $"{Name ?? ""} ({Description ?? ""}) : {Content}";
         }
     }
 
     public struct MessageObject
     {
-        // TODO: more than just text
         public string Content;
+        public string[] Attachments;
 
         public MessageObject(string content = null)
         {
             Content = content;
+            Attachments = null;
         }
 
         public override string ToString()
         {
-            return $"{Content ?? ""}";
+            return $"{Content ?? ""} ({(Attachments == null ? Attachments.Length : 0)} attachments)";
         }
     }
 }

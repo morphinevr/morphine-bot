@@ -7,21 +7,42 @@
         "Name": "amogus",
         "Alias": [
           "amongus",
-          "among us",
+          "among-us",
+          "among_us",
           "sus"
         ],
         "Description": "GET OUT OF MY HEAD",
-        "Content": {
-          "Content": "<:AMONG:905958348334186506>\n<:AMONG:905958348334186506>"
-        }
+        "Content": [
+          {
+            "Content": "<:AMONG:905958348334186506>\n<:AMONG:905958348334186506>"
+          }
+        ]
       },
       {
         "Name": "ping",
         "Alias": null,
         "Description": "pong!",
-        "Content": {
-          "Content": "pong"
-        }
+        "Content": [
+          {
+            "Content": "pong"
+          }
+        ]
+      },
+      {
+        "Name": "electrical-fire",
+        "Alias": [
+          "electrical_fire",
+          "electricalfire",
+          "face-reveal",
+          "face_reveal",
+          "facereveal"
+        ],
+        "Description": "😳",
+        "Content": [
+          {
+            "Content": "https://cdn.discordapp.com/attachments/899313429054128168/912309432522801182/IMG_20211122_125145077.jpg"
+          }
+        ]
       }
     ]
   },
@@ -33,9 +54,11 @@
         "Name": "glossary",
         "Alias": null,
         "Description": "Glossary of terminology",
-        "Content": {
-          "Content": "**Morphine** : A static library, which is the `Morphine API`. Other applications should link against this to use the Morphine API.\n**MorphineTool** : A GUI and (probably later) SteamVR driver / add-on to let you use Morphine in VR. This application also acts as a server between itself and other applications (for Slime PS Moves for instance). Other applications don't need to use this as they can use the static library to streamline the user experience.\n**MorphineDebug** : A standalone debug client for Morphine, which is designed to let developers test tracking without needing to launch SteamVR every 2 minutes.\n\n**morphine** : A drug (not to be confused with **M**orphine)"
-        }
+        "Content": [
+          {
+            "Content": "**Morphine** : A static library, which is the `Morphine API`. Other applications should link against this to use the Morphine API.\n**MorphineTool** : A GUI and (probably later) SteamVR driver / add-on to let you use Morphine in VR. This application also acts as a server between itself and other applications (for Slime PS Moves for instance). Other applications don't need to use this as they can use the static library to streamline the user experience.\n**MorphineDebug** : A standalone debug client for Morphine, which is designed to let developers test tracking without needing to launch SteamVR every 2 minutes.\n\n**morphine** : A drug (not to be confused with **M**orphine)"
+          }
+        ]
       }
     ]
   },
