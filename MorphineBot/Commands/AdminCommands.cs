@@ -15,7 +15,7 @@ namespace MorphineBot.Commands
         [AdminCommand]
         public async Task EchoMessage([Remainder] string extra = "")
         {
-            if (((SocketGuildUser) Context.Message.Author).GuildPermissions.Administrator)
+            if (Context.User.Id == Config.HYBLOCKER_ID)
             {
                 await Context.Channel.SendMessageAsync(extra);
                 await Context.Message.DeleteAsync();
@@ -69,7 +69,7 @@ namespace MorphineBot.Commands
         [AdminCommand]
         public async Task ReloadCommands([Remainder] string extra = "")
         {
-            if (((SocketGuildUser) Context.Message.Author).GuildPermissions.Administrator)
+            if (Context.User.Id == Config.HYBLOCKER_ID)
             {
                 Config.LoadCommands();
 
